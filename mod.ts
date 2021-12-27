@@ -10,7 +10,8 @@ for (let i=0; i<256; i++)
 	CRC_TABLE[i] = c;
 }
 
-// The work is done here
+/**	The work is done here
+ **/
 function crc32Update(crc: number, value: Uint8Array)
 {	for (let i=0, iEnd=value.length; i<iEnd; i++)
 	{	crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ value[i]) & 0xFF];
@@ -29,7 +30,7 @@ export function crc32(value: string|Uint8Array)
 }
 
 /**	You can pass your own buffer that will be used during the read process.
-	By default i will create a new 8kiB buffer.
+	By default i will create a new 8 KiB buffer.
  **/
 export async function crc32Reader(value: Deno.Reader, buffer=new Uint8Array(8*1024))
 {	let crc = -1;
