@@ -1,51 +1,71 @@
+<!--
+	This file is generated with the following command:
+	deno run --allow-all https://raw.githubusercontent.com/jeremiah-shaulov/tsa/v0.0.30/tsa.ts doc-md --outFile=README.md mod.ts --moduleName crc32hash --outUrl https://raw.githubusercontent.com/jeremiah-shaulov/deno-crc32hash/v2.0.0/README.md
+-->
+
 # crc32hash
-Calculate crc32 hash of a string, Uint8Array, or Deno.Reader.
 
-This module exports 2 functions:
+[Documentation Index](generated-doc/README.md)
+
+Deno module to calculate crc32 hash of a string, Uint8Array or ReadableStream<Uint8Array>.
+
+This module exports 2 functions and 1 class:
+
+> `function` crc32(data: `string` | Uint8Array): `number`
+
+
+
+> `function` crc32Stream(stream: ReadableStream\<Uint8Array>, bufferSize: `number`=8\*1024): Promise\<`number`>
+
+
+
+> `class` Crc32<br>
+> {<br>
+> &nbsp; &nbsp; 📄 `get` [value](generated-doc/class.Crc32/README.md#-get-value-number)(): `number`<br>
+> &nbsp; &nbsp; ⚙ [update](generated-doc/class.Crc32/README.md#-updatedatapart-string--uint8array-void)(dataPart: `string` | Uint8Array): `void`<br>
+> &nbsp; &nbsp; ⚙ [valueOf](generated-doc/class.Crc32/README.md#-valueof-number)(): `number`<br>
+> &nbsp; &nbsp; ⚙ [toString](generated-doc/class.Crc32/README.md#-tostring-string)(): `string`<br>
+> }
+
+
+
+#### String:
 
 ```ts
-function crc32(value: string | Uint8Array): number;
-function crc32Reader(value: Deno.Reader, buffer?: Uint8Array): Promise<number>;
-```
-
-**String:**
-
-```ts
-import {crc32} from 'https://deno.land/x/crc32hash@v1.0.0/mod.ts';
+import {crc32} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
 
 console.log(crc32('abc'));
 ```
 
-**Uint8Array:**
+#### Uint8Array:
 
 ```ts
-import {crc32} from 'https://deno.land/x/crc32hash@v1.0.0/mod.ts';
+import {crc32} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
 
 console.log(crc32(new Uint8Array([97, 98, 99])));
 ```
 
-**Deno.Reader:**
+#### ReadableStream<Uint8Array>:
 
 ```ts
-import {crc32Reader} from 'https://deno.land/x/crc32hash@v1.0.0/mod.ts';
+import {crc32Stream} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
 
-const filename = new URL(import.meta.url).pathname;
-const fp = await Deno.open(filename, {read: true});
-try
-{	console.log(await crc32Reader(fp));
-}
-finally
-{	fp.close();
-}
+const fileUrl = new URL(import.meta.url);
+using fp = await Deno.open(fileUrl, {read: true});
+console.log(await crc32Stream(fp.readable));
 ```
 
-You can pass your own buffer that will be used during the read process.
-By default `crc32Reader()` creates a new 8 KiB buffer.
-For repeated operations (but not simultaneous), it'd be more optimal to allocate buffer once, and reuse it.
+#### Data parts
 
 ```ts
-const buffer = new Uint8Array(8*1024);
-const res1 = await crc32Reader(source1, buffer);
-const res2 = await crc32Reader(source2, buffer);
-const res3 = await crc32Reader(source3, buffer);
+import {crc32, Crc32} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
+import {assertEquals} from 'https://deno.land/std@0.224.0/assert/assert_equals.ts';
+
+const crc = new Crc32;
+
+crc.update('Lorem ipsum ');
+assertEquals(crc.value, crc32('Lorem ipsum '));
+
+crc.update('dolor sit amet');
+assertEquals(crc.value, crc32('Lorem ipsum dolor sit amet'));
 ```
