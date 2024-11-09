@@ -11,7 +11,7 @@
 	#### String:
 
 	```ts
-	import {crc32} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
+	import {crc32} from './mod.ts';
 
 	console.log(crc32('abc'));
 	```
@@ -19,7 +19,7 @@
 	#### Uint8Array:
 
 	```ts
-	import {crc32} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
+	import {crc32} from './mod.ts';
 
 	console.log(crc32(new Uint8Array([97, 98, 99])));
 	```
@@ -27,7 +27,7 @@
 	#### ReadableStream<Uint8Array>:
 
 	```ts
-	import {crc32Stream} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
+	import {crc32Stream} from './mod.ts';
 
 	const fileUrl = new URL(import.meta.url);
 	using fp = await Deno.open(fileUrl, {read: true});
@@ -37,8 +37,8 @@
 	#### Data parts
 
 	```ts
-	import {crc32, Crc32} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
-	import {assertEquals} from 'https://deno.land/std@0.224.0/assert/assert_equals.ts';
+	import {crc32, Crc32} from './mod.ts';
+	import {assertEquals} from 'jsr:@std/assert@1.0.7/equals';
 
 	const crc = new Crc32;
 
@@ -76,7 +76,7 @@ function crc32Update(crc: number, data: Uint8Array)
 /**	Calculate CRC32 hash of a string or a Uint8Array.
 
 	```ts
-	import {crc32} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
+	import {crc32} from './mod.ts';
 
 	console.log(crc32('abc'));
 	```
@@ -92,7 +92,7 @@ export function crc32(data: string|Uint8Array)
 /**	Reads the provided stream to the end, and returns it's CRC32 hash.
 
 	```ts
-	import {crc32Stream} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
+	import {crc32Stream} from './mod.ts';
 
 	const fileUrl = new URL(import.meta.url);
 	using fp = await Deno.open(fileUrl, {read: true});
@@ -133,8 +133,8 @@ export async function crc32Stream(stream: ReadableStream<Uint8Array>, bufferSize
 	This object also implements `valueOf()` and `toString()`, so can be converted to a number or a string directly.
 
 	```ts
-	import {crc32, Crc32} from 'https://deno.land/x/crc32hash@v2.0.0/mod.ts';
-	import {assertEquals} from 'https://deno.land/std@0.224.0/assert/assert_equals.ts';
+	import {crc32, Crc32} from './mod.ts';
+	import {assertEquals} from 'jsr:@std/assert@1.0.7/equals';
 
 	const crc = new Crc32;
 
@@ -170,7 +170,7 @@ export class Crc32
 
 		```ts
 		import {Crc32} from './mod.ts';
-		import {assertEquals} from 'https://deno.land/std@0.224.0/assert/assert_equals.ts';
+		import {assertEquals} from 'jsr:@std/assert@1.0.7/equals';
 
 		const crc = new Crc32;
 		crc.update('Lorem ipsum dolor sit amet');
